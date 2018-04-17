@@ -4,6 +4,7 @@
 | ------------- | ------------- | ------------- | ------------- |
 | emotion_mini_XCEPTION_64x64_0.66_7ms.hdf5 | 0.66  | 7ms | FER |
 | emotion_mini_XCEPTION_48x48_0.63_5ms.hdf5 | 0.63  | 5ms | FER |
+* frame time here is running on Keras on python and a Macbook CPU. Tensorflow + CPU is ~2ms faster. 
 
 ## TODO
 1. train with FER+ data labelled with 10 people, (i.e. each image will have 10 votes)
