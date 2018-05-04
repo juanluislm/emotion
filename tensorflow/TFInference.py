@@ -4,7 +4,6 @@ class TFInference:
     def __init__(self, model_path, input_name, output_names):
         # parameters for loading data and images
         self.model_path = model_path
-        self.labels = {0:'angry',1:'disgust',2:'fear',3:'happy',4:'sad',5:'surprise',6:'neutral'}
         self.graph = tf.Graph()
         self.graph_def = tf.GraphDef()
         with open(self.model_path, "rb") as f:
