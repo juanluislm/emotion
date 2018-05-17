@@ -48,6 +48,14 @@ if enable_mouth_tracking:
                                            output_names = ['import/output_node0'])
     mouth_target_size = mouth_openness_inference.input_shape[0:2]
 
+if enable_refined_landmark_tracking:
+    refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_64_lm_36.66-0.63-0.16.hdf5.pb',
+    # refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_48_lm_36.96-0.38-0.11.hdf5.pb',
+    # refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_36.94-0.20-0.07.hdf5.pb',
+                                             input_name = 'import/input_1',
+                                             output_names = ['import/output_node0'])
+    refined_landmark_target_size = refined_landmark_inference.input_shape[0:2]
+
 # starting video streaming
 cv2.namedWindow('window_frame')
 video_capture = cv2.VideoCapture(0)
@@ -110,6 +118,21 @@ while True:
     # --------------------------------------------------
     # step 3: inference of emotion nets for emotion and mouth openness
     # --------------------------------------------------
+    if enable_refined_landmark_tracking:
+        gray_face = gray_image[y1:y2, x1:x2]
+        gray_face_raw = cv2.resize(gray_face, (refined_landmark_target_size))
+        gray_face = ((gray_face_raw / 255.0) - 0.5) * 2
+        gray_face = np.expand_dims(gray_face, -1)
+        gray_face = np.expand_dims(gray_face, 0)
+        start = time.time()
+        refined_landmark_prediction = refined_landmark_inference.run(gray_face)
+        print("forward pass of refined landmark deep nets took {} ms".format((time.time() - start)*1e3))
+        for i in range(18):
+            cv2.circle(gray_face_raw, (int(refined_landmark_prediction[0][0][i*2]),
+                                       int(refined_landmark_prediction[0][0][i*2+1])),
+                       1, (255), -1)
+            cv2.imshow('refined landmarks', gray_face_raw)
+
     if enable_mouth_tracking:
         mouth_center_raw = ((landmark_pts_raw[3][0] + landmark_pts_raw[4][0])/2.0,
                             (landmark_pts_raw[3][1] + landmark_pts_raw[4][1])/2.0)
