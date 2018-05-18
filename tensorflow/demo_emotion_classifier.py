@@ -14,7 +14,7 @@ def draw_bar(image, val, label, position):
 
 
 enable_emotion_tracking = True
-enable_refined_landmark_tracking = True
+enable_refined_landmark_tracking = False
 enable_mouth_tracking = True
 
 face_detector = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')
@@ -43,6 +43,7 @@ if enable_emotion_tracking:
 
 if enable_mouth_tracking:
     # mouth openness model
+    # mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_16.78-0.72-0.22.hdf5.pb',
     mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_12.70-0.46-0.14.hdf5.pb',
                                            input_name = 'import/input_1',
                                            output_names = ['import/output_node0'])
@@ -99,6 +100,8 @@ while True:
         continue
     x1, y1, x2, y2 = [int(landmark_roi[0]*w+x), int(landmark_roi[1]*h+y),
                       int(landmark_roi[2]*w+x+w), int(landmark_roi[3]*h+y+h)]
+    # x1, y1, x2, y2 = [int(landmark_roi[0]*48+x), int(landmark_roi[1]*48+y),
+    #                   int(landmark_roi[2]*48+x+w), int(landmark_roi[3]*48+y+h)]
     cv2.rectangle(rgb_image, (x, y), (x + w, y + h), (255, 255, 255), 2)
     cv2.rectangle(rgb_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
     if (x2 - x1) > (y2 - y1):
