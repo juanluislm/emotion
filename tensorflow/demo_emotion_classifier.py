@@ -12,10 +12,10 @@ def draw_bar(image, val, label, position):
     cv2.putText(image, label, (10, position * 20 + 20), cv2.FONT_HERSHEY_PLAIN, 0.5, (0, 255, 0), 1);
     cv2.rectangle(image, (130, position * 20 + 10), (130 + int(val * 100), (position + 1) * 20 + 4), (255, 0, 0), -1)
 
-
 enable_emotion_tracking = True
-enable_refined_landmark_tracking = False
+enable_refined_landmark_tracking = True
 enable_mouth_tracking = True
+enable_eye_tracking = True
 
 face_detector = cv2.CascadeClassifier('models/haarcascade_frontalface_default.xml')
 # loading landmark model
@@ -43,19 +43,23 @@ if enable_emotion_tracking:
 
 if enable_mouth_tracking:
     # mouth openness model
-    # mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_16.78-0.72-0.22.hdf5.pb',
-    mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_12.70-0.46-0.14.hdf5.pb',
+    mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_12.95-0.54-0.18.hdf5.pb',
                                            input_name = 'import/input_1',
                                            output_names = ['import/output_node0'])
     mouth_target_size = mouth_openness_inference.input_shape[0:2]
 
 if enable_refined_landmark_tracking:
-    refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_64_lm_36.66-0.63-0.16.hdf5.pb',
-    # refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_48_lm_36.96-0.38-0.11.hdf5.pb',
-    # refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_36.94-0.20-0.07.hdf5.pb',
+    refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_64_lm_36.75-0.72-0.21.hdf5.pb',
+    # refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_48_lm_36.87-0.43-0.15.hdf5.pb',
                                              input_name = 'import/input_1',
                                              output_names = ['import/output_node0'])
     refined_landmark_target_size = refined_landmark_inference.input_shape[0:2]
+
+if enable_eye_tracking:
+    eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_10.44-1.08-0.48.hdf5.pb',
+                                         input_name = 'import/input_1',
+                                         output_names = ['import/output_node0'])
+    eye_target_size = eye_tracking_inference.input_shape[0:2]
 
 # starting video streaming
 cv2.namedWindow('window_frame')
@@ -165,6 +169,25 @@ while True:
             cv2.circle(gray_mouth_raw, (int(mouth_prediction[0][0][i*2]), int(mouth_prediction[0][0][i*2+1])),
                        1, (255), -1)
             cv2.imshow('mouth input 0 {}'.format(mouth_target_size), gray_mouth_raw)
+
+    if enable_eye_tracking:
+        eye_center_raw = (landmark_pts_raw[0][0], landmark_pts_raw[0][1])
+        eye_half_size = int(max(x2-x1, y2-y1) / 64 * eye_target_size[0] / 2)
+        eye_center_rounded = (int(eye_center_raw[0]), int(eye_center_raw[1]))
+        gray_eye_raw = cv2.resize(gray_image[(eye_center_rounded[1]-eye_half_size): (eye_center_rounded[1]+eye_half_size),
+                                             (eye_center_rounded[0]-eye_half_size): (eye_center_rounded[0]+eye_half_size)],
+                                  (eye_target_size))
+        gray_eye_one = ((gray_eye_raw / 255.0) - 0.5) * 2
+        gray_eye_one = np.expand_dims(gray_eye_one, -1)
+        gray_eye_one = np.expand_dims(gray_eye_one, 0)
+        start = time.time()
+        eye_prediction = eye_tracking_inference.run(gray_eye_one)
+        print("forward pass of eye deep nets took {} ms".format((time.time() - start)*1e3))
+        for i in range(5):
+            cv2.circle(gray_eye_raw, (int(eye_prediction[0][0][i*2]), int(eye_prediction[0][0][i*2+1])),
+                       1, (255), -1)
+            cv2.imshow('eye input 0 {}'.format(eye_target_size), gray_eye_raw)
+
 
     if enable_emotion_tracking:
         gray_face = gray_image[y1:y2, x1:x2]
