@@ -56,7 +56,8 @@ if enable_refined_landmark_tracking:
     refined_landmark_target_size = refined_landmark_inference.input_shape[0:2]
 
 if enable_eye_tracking:
-    eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_10.44-1.08-0.48.hdf5.pb',
+    # eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_48_lm_10.49-2.21-0.94.hdf5.pb',
+    eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_10.54-1.09-0.51.hdf5.pb',
                                          input_name = 'import/input_1',
                                          output_names = ['import/output_node0'])
     eye_target_size = eye_tracking_inference.input_shape[0:2]
@@ -172,7 +173,7 @@ while True:
 
     if enable_eye_tracking:
         eye_center_raw = (landmark_pts_raw[0][0], landmark_pts_raw[0][1])
-        eye_half_size = int(max(x2-x1, y2-y1) / 64 * eye_target_size[0] / 2)
+        eye_half_size = int(max(x2-x1, y2-y1) / 128 * eye_target_size[0] / 2)
         eye_center_rounded = (int(eye_center_raw[0]), int(eye_center_raw[1]))
         gray_eye_raw = cv2.resize(gray_image[(eye_center_rounded[1]-eye_half_size): (eye_center_rounded[1]+eye_half_size),
                                              (eye_center_rounded[0]-eye_half_size): (eye_center_rounded[0]+eye_half_size)],
