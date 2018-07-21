@@ -43,21 +43,22 @@ if enable_emotion_tracking:
 
 if enable_mouth_tracking:
     # mouth openness model
-    mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_12.95-0.54-0.18.hdf5.pb',
+    mouth_openness_inference = TFInference(model_path = 'models/faceoff_kao_onet_new_32_lm_12.59-0.39-0.26.hdf5.pb', #'models/faceoff_kao_onet_32_lm_12.70-0.44-0.29.hdf5.pb',# 'models/faceoff_kao_onet_48_lm_12.55-1.00-0.49.hdf5.pb',  #'models/faceoff_kao_onet_32_lm_12.95-0.50-0.32.hdf5.pb', #'models/faceoff_kao_onet_32_lm_12.95-0.54-0.18.hdf5.pb',
                                            input_name = 'import/input_1',
                                            output_names = ['import/output_node0'])
     mouth_target_size = mouth_openness_inference.input_shape[0:2]
 
 if enable_refined_landmark_tracking:
-    refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_64_lm_36.75-0.72-0.21.hdf5.pb',
-    # refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_48_lm_36.87-0.43-0.15.hdf5.pb',
+    refined_landmark_inference = TFInference(model_path = 'models/faceoff_kao_onet_64_lm_46.65-1.66-0.57.hdf5.pb',
                                              input_name = 'import/input_1',
                                              output_names = ['import/output_node0'])
     refined_landmark_target_size = refined_landmark_inference.input_shape[0:2]
 
 if enable_eye_tracking:
     # eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_48_lm_10.49-2.21-0.94.hdf5.pb',
-    eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_10.54-1.09-0.51.hdf5.pb',
+    # eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_10.54-1.09-0.51.hdf5.pb',
+    # eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_12.45-1.46-0.97.hdf5.pb',
+    eye_tracking_inference = TFInference(model_path = 'models/faceoff_kao_onet_32_lm_12.67-1.59-0.74.hdf5.pb',
                                          input_name = 'import/input_1',
                                          output_names = ['import/output_node0'])
     eye_target_size = eye_tracking_inference.input_shape[0:2]
@@ -105,8 +106,6 @@ while True:
         continue
     x1, y1, x2, y2 = [int(landmark_roi[0]*w+x), int(landmark_roi[1]*h+y),
                       int(landmark_roi[2]*w+x+w), int(landmark_roi[3]*h+y+h)]
-    # x1, y1, x2, y2 = [int(landmark_roi[0]*48+x), int(landmark_roi[1]*48+y),
-    #                   int(landmark_roi[2]*48+x+w), int(landmark_roi[3]*48+y+h)]
     cv2.rectangle(rgb_image, (x, y), (x + w, y + h), (255, 255, 255), 2)
     cv2.rectangle(rgb_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
     if (x2 - x1) > (y2 - y1):
@@ -135,7 +134,7 @@ while True:
         start = time.time()
         refined_landmark_prediction = refined_landmark_inference.run(gray_face)
         print("forward pass of refined landmark deep nets took {} ms".format((time.time() - start)*1e3))
-        for i in range(18):
+        for i in range(23):
             cv2.circle(gray_face_raw, (int(refined_landmark_prediction[0][0][i*2]),
                                        int(refined_landmark_prediction[0][0][i*2+1])),
                        1, (255), -1)
@@ -146,14 +145,21 @@ while True:
                             (landmark_pts_raw[3][1] + landmark_pts_raw[4][1])/2.0)
         mouth_half_size = int(max(x2-x1, y2-y1) / 64 * mouth_target_size[0] / 2)
         mouth_center_rounded = (int(mouth_center_raw[0]), int(mouth_center_raw[1]))
-        gray_mouth_raw = cv2.resize(gray_image[(mouth_center_rounded[1]-mouth_half_size): (mouth_center_rounded[1]+mouth_half_size),
-                                               (mouth_center_rounded[0]-mouth_half_size): (mouth_center_rounded[0]+mouth_half_size)],
-                                    (mouth_target_size))
-        gray_mouth_one = ((gray_mouth_raw / 255.0) - 0.5) * 2
-        gray_mouth_one = np.expand_dims(gray_mouth_one, -1)
-        gray_mouth_one = np.expand_dims(gray_mouth_one, 0)
+        if mouth_openness_inference.input_shape[2] == 1:
+            mouth_raw = cv2.resize(gray_image[(mouth_center_rounded[1]-mouth_half_size): (mouth_center_rounded[1]+mouth_half_size),
+                                              (mouth_center_rounded[0]-mouth_half_size): (mouth_center_rounded[0]+mouth_half_size)],
+                                   (mouth_target_size))
+            gray_mouth_one = ((mouth_raw / 255.0) - 0.5) * 2
+            gray_mouth_one = np.expand_dims(gray_mouth_one, -1)
+            mouth_in = np.expand_dims(gray_mouth_one, 0)
+        else:
+            mouth_raw = cv2.resize(bgr_image[(mouth_center_rounded[1]-mouth_half_size): (mouth_center_rounded[1]+mouth_half_size),
+                                             (mouth_center_rounded[0]-mouth_half_size): (mouth_center_rounded[0]+mouth_half_size)],
+                                   (mouth_target_size))
+            bgr_mouth_one = ((mouth_raw / 255.0) - 0.5) * 2
+            mouth_in = np.expand_dims(bgr_mouth_one, 0)
         start = time.time()
-        mouth_prediction = mouth_openness_inference.run(gray_mouth_one)
+        mouth_prediction = mouth_openness_inference.run(mouth_in)
         print("forward pass of mouth deep nets took {} ms".format((time.time() - start)*1e3))
 
         left_right = np.array([mouth_prediction[0][0][0] - mouth_prediction[0][0][2], \
@@ -167,27 +173,34 @@ while True:
         openness_length = np.linalg.norm(openness)
 
         for i in range(6):
-            cv2.circle(gray_mouth_raw, (int(mouth_prediction[0][0][i*2]), int(mouth_prediction[0][0][i*2+1])),
-                       1, (255), -1)
-            cv2.imshow('mouth input 0 {}'.format(mouth_target_size), gray_mouth_raw)
+            cv2.circle(mouth_raw, (int(mouth_prediction[0][0][i*2]), int(mouth_prediction[0][0][i*2+1])),
+                       1, (0, 255, 0), -1)
+            cv2.imshow('mouth input 0 {}'.format(mouth_target_size), mouth_raw)
 
     if enable_eye_tracking:
         eye_center_raw = (landmark_pts_raw[0][0], landmark_pts_raw[0][1])
         eye_half_size = int(max(x2-x1, y2-y1) / 128 * eye_target_size[0] / 2)
         eye_center_rounded = (int(eye_center_raw[0]), int(eye_center_raw[1]))
-        gray_eye_raw = cv2.resize(gray_image[(eye_center_rounded[1]-eye_half_size): (eye_center_rounded[1]+eye_half_size),
-                                             (eye_center_rounded[0]-eye_half_size): (eye_center_rounded[0]+eye_half_size)],
-                                  (eye_target_size))
-        gray_eye_one = ((gray_eye_raw / 255.0) - 0.5) * 2
-        gray_eye_one = np.expand_dims(gray_eye_one, -1)
-        gray_eye_one = np.expand_dims(gray_eye_one, 0)
+        if eye_tracking_inference.input_shape[2] == 1:
+            eye_raw = cv2.resize(gray_image[(eye_center_rounded[1]-eye_half_size): (eye_center_rounded[1]+eye_half_size),
+                                            (eye_center_rounded[0]-eye_half_size): (eye_center_rounded[0]+eye_half_size)],
+                                 (eye_target_size))
+            gray_eye_one = ((eye_raw / 255.0) - 0.5) * 2
+            gray_eye_one = np.expand_dims(gray_eye_one, -1)
+            eye_in = np.expand_dims(gray_eye_one, 0)
+        else:
+            eye_raw = cv2.resize(bgr_image[(eye_center_rounded[1]-eye_half_size): (eye_center_rounded[1]+eye_half_size),
+                                            (eye_center_rounded[0]-eye_half_size): (eye_center_rounded[0]+eye_half_size)],
+                                 (eye_target_size))
+            bgr_eye_one = ((eye_raw / 255.0) - 0.5) * 2
+            eye_in = np.expand_dims(bgr_eye_one, 0)
         start = time.time()
-        eye_prediction = eye_tracking_inference.run(gray_eye_one)
+        eye_prediction = eye_tracking_inference.run(eye_in)
         print("forward pass of eye deep nets took {} ms".format((time.time() - start)*1e3))
-        for i in range(5):
-            cv2.circle(gray_eye_raw, (int(eye_prediction[0][0][i*2]), int(eye_prediction[0][0][i*2+1])),
-                       1, (255), -1)
-            cv2.imshow('eye input 0 {}'.format(eye_target_size), gray_eye_raw)
+        for i in range(6):
+            cv2.circle(eye_raw, (int(eye_prediction[0][0][i*2]), int(eye_prediction[0][0][i*2+1])),
+                       1, (0, 255, 0), -1)
+            cv2.imshow('eye input 0 {}'.format(eye_target_size), eye_raw)
 
 
     if enable_emotion_tracking:

@@ -12,9 +12,13 @@ class TFInference:
             tf.import_graph_def(self.graph_def)
         self.input_name = input_name
         self.input_operation = self.graph.get_operation_by_name(input_name)
+        try:
+            channel = int(self.input_operation.outputs[0].shape.dims[3])
+        except:
+            channel = 1
         self.input_shape = (int(self.input_operation.outputs[0].shape.dims[1]),
                             int(self.input_operation.outputs[0].shape.dims[2]),
-                            1)
+                            channel)
         self.output_names = []
         self.output_operations = []
         for node_name in output_names:
