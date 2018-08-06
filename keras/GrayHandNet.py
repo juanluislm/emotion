@@ -6,6 +6,7 @@ import math  # math functions
 from keras.callbacks import CSVLogger, ModelCheckpoint, EarlyStopping
 from keras.callbacks import ReduceLROnPlateau
 import datetime
+from CustomCallbacks import *
 
 # from IPython.display import display as ipydisplay, Image, clear_output, HTML  # for interacting with the notebook better
 
@@ -102,7 +103,7 @@ def SetupModel(w, h):
 
 w =32
 h =32
-batch_size = 16
+batch_size = 32
 training_generator, validation_generator = SetUpDataGenerators('images/CommonHandGestures/training_data',
                                                                'images/CommonHandGestures/validation_data',
                                                                 batch_size,
@@ -110,6 +111,7 @@ training_generator, validation_generator = SetUpDataGenerators('images/CommonHan
                                                                 h)
 
 model = SetupModel(w, h)
+gestures = ['nohand','peace','stop','thumbsup']
 
 now = datetime.datetime.now()
 patience = 50
@@ -128,17 +130,19 @@ reduce_lr = ReduceLROnPlateau('val_loss', factor=0.1,
                               patience=int(patience/4), verbose=1)
 trained_models_path = base_path + 'gestures_' + model_name
 model_names = trained_models_path + '.{epoch:02d}-{val_acc:.2f}.hdf5'
-model_checkpoint = ModelCheckpoint(model_names, 'val_loss', verbose=1,
-                                   save_best_only=True)
+
+model_checkpoint = ModelCheckpointConfusion(model_names, 'val_loss', verbose=1,
+                                            save_best_only=True, gestures=gestures, generator=validation_generator )
+
 callbacks = [model_checkpoint, csv_logger, early_stop, reduce_lr]
 
 
 history = model.fit_generator(
     generator=training_generator,
-    steps_per_epoch=429,# // batch_size,
+    steps_per_epoch= 60000// batch_size,
     epochs=1000,
     verbose=1, callbacks=callbacks,
     validation_data=validation_generator,
-    validation_steps=100,# // batch_size,
+    validation_steps=3200 // batch_size,
     workers=8,
 )
