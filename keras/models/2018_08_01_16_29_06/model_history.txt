@@ -1,0 +1,321 @@
+Epoch 00001: val_loss improved from inf to 1.41280, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.01-0.49.hdf5
+Epoch 2/10000
+1124/1875 [================>.............] - ETA: 1:10 - loss: 0.6359 - acc: 0.7716/usr/local/lib/python3.6/site-packages/PIL/Image.py:2514: DecompressionBombWarning: Image size (99680256 pixels) exceeds limit of 89478485 pixels, could be decompression bomb DOS attack.
+  DecompressionBombWarning)
+1875/1875 [==============================] - 188s 100ms/step - loss: 0.6011 - acc: 0.7854 - val_loss: 1.2164 - val_acc: 0.5325
+
+Epoch 00002: val_loss improved from 1.41280 to 1.21643, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.02-0.53.hdf5
+Epoch 3/10000
+1875/1875 [==============================] - 194s 104ms/step - loss: 0.4897 - acc: 0.8270 - val_loss: 1.6133 - val_acc: 0.3869
+
+Epoch 00003: val_loss did not improve from 1.21643
+Epoch 4/10000
+1875/1875 [==============================] - 203s 108ms/step - loss: 0.4170 - acc: 0.8554 - val_loss: 1.6885 - val_acc: 0.4600
+
+Epoch 00004: val_loss did not improve from 1.21643
+Epoch 5/10000
+1875/1875 [==============================] - 207s 110ms/step - loss: 0.3793 - acc: 0.8694 - val_loss: 1.4085 - val_acc: 0.5081
+
+Epoch 00005: val_loss did not improve from 1.21643
+Epoch 6/10000
+1875/1875 [==============================] - 213s 114ms/step - loss: 0.3558 - acc: 0.8798 - val_loss: 1.2642 - val_acc: 0.5637
+
+Epoch 00006: val_loss did not improve from 1.21643
+Epoch 7/10000
+1875/1875 [==============================] - 221s 118ms/step - loss: 0.3234 - acc: 0.8933 - val_loss: 1.2259 - val_acc: 0.5419
+
+Epoch 00007: val_loss did not improve from 1.21643
+Epoch 8/10000
+1875/1875 [==============================] - 233s 124ms/step - loss: 0.3140 - acc: 0.8970 - val_loss: 1.6363 - val_acc: 0.5269
+
+Epoch 00008: val_loss did not improve from 1.21643
+Epoch 9/10000
+1875/1875 [==============================] - 241s 129ms/step - loss: 0.2908 - acc: 0.9060 - val_loss: 1.7502 - val_acc: 0.4725
+
+Epoch 00009: val_loss did not improve from 1.21643
+Epoch 10/10000
+1875/1875 [==============================] - 224s 119ms/step - loss: 0.2822 - acc: 0.9072 - val_loss: 1.4599 - val_acc: 0.5394
+
+Epoch 00010: val_loss did not improve from 1.21643
+Epoch 11/10000
+1875/1875 [==============================] - 217s 116ms/step - loss: 0.2719 - acc: 0.9126 - val_loss: 1.1563 - val_acc: 0.5656
+
+Epoch 00011: val_loss improved from 1.21643 to 1.15634, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.11-0.57.hdf5
+Epoch 12/10000
+1875/1875 [==============================] - 219s 117ms/step - loss: 0.2597 - acc: 0.9166 - val_loss: 1.1839 - val_acc: 0.5837
+
+Epoch 00012: val_loss did not improve from 1.15634
+Epoch 13/10000
+1875/1875 [==============================] - 211s 113ms/step - loss: 0.2467 - acc: 0.9204 - val_loss: 1.1497 - val_acc: 0.5981
+
+Epoch 00013: val_loss improved from 1.15634 to 1.14973, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.13-0.60.hdf5
+Epoch 14/10000
+1875/1875 [==============================] - 3666s 2s/step - loss: 0.2430 - acc: 0.9231 - val_loss: 2.1294 - val_acc: 0.4200
+
+Epoch 00014: val_loss did not improve from 1.14973
+Epoch 15/10000
+1875/1875 [==============================] - 224s 119ms/step - loss: 0.2338 - acc: 0.9253 - val_loss: 1.3262 - val_acc: 0.5837
+
+Epoch 00015: val_loss did not improve from 1.14973
+Epoch 16/10000
+1875/1875 [==============================] - 215s 115ms/step - loss: 0.2291 - acc: 0.9289 - val_loss: 1.3290 - val_acc: 0.4944
+
+Epoch 00016: val_loss did not improve from 1.14973
+Epoch 17/10000
+1875/1875 [==============================] - 219s 117ms/step - loss: 0.2291 - acc: 0.9289 - val_loss: 1.7460 - val_acc: 0.4863
+
+Epoch 00017: val_loss did not improve from 1.14973
+Epoch 18/10000
+1875/1875 [==============================] - 237s 127ms/step - loss: 0.2194 - acc: 0.9322 - val_loss: 1.1422 - val_acc: 0.6088
+
+Epoch 00018: val_loss improved from 1.14973 to 1.14219, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.18-0.61.hdf5
+Epoch 19/10000
+1875/1875 [==============================] - 212s 113ms/step - loss: 0.2100 - acc: 0.9356 - val_loss: 1.2724 - val_acc: 0.5381
+
+Epoch 00019: val_loss did not improve from 1.14219
+Epoch 20/10000
+1875/1875 [==============================] - 188s 100ms/step - loss: 0.2124 - acc: 0.9344 - val_loss: 1.4605 - val_acc: 0.5156
+
+Epoch 00020: val_loss did not improve from 1.14219
+Epoch 21/10000
+1875/1875 [==============================] - 184s 98ms/step - loss: 0.2102 - acc: 0.9370 - val_loss: 1.9901 - val_acc: 0.4781
+
+Epoch 00021: val_loss did not improve from 1.14219
+Epoch 22/10000
+1875/1875 [==============================] - 199s 106ms/step - loss: 0.2059 - acc: 0.9374 - val_loss: 1.3696 - val_acc: 0.6006
+
+Epoch 00022: val_loss did not improve from 1.14219
+Epoch 23/10000
+1875/1875 [==============================] - 190s 101ms/step - loss: 0.1988 - acc: 0.9390 - val_loss: 1.7203 - val_acc: 0.5487
+
+Epoch 00023: val_loss did not improve from 1.14219
+Epoch 24/10000
+1875/1875 [==============================] - 193s 103ms/step - loss: 0.1923 - acc: 0.9426 - val_loss: 1.3640 - val_acc: 0.5350
+
+Epoch 00024: val_loss did not improve from 1.14219
+Epoch 25/10000
+1875/1875 [==============================] - 195s 104ms/step - loss: 0.1918 - acc: 0.9410 - val_loss: 0.8613 - val_acc: 0.6875
+
+Epoch 00025: val_loss improved from 1.14219 to 0.86132, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.25-0.69.hdf5
+Epoch 26/10000
+1875/1875 [==============================] - 193s 103ms/step - loss: 0.1895 - acc: 0.9430 - val_loss: 1.5289 - val_acc: 0.5244
+
+Epoch 00026: val_loss did not improve from 0.86132
+Epoch 27/10000
+1875/1875 [==============================] - 196s 105ms/step - loss: 0.1831 - acc: 0.9448 - val_loss: 1.5233 - val_acc: 0.4925
+
+Epoch 00027: val_loss did not improve from 0.86132
+Epoch 28/10000
+1875/1875 [==============================] - 199s 106ms/step - loss: 0.1845 - acc: 0.9455 - val_loss: 1.0804 - val_acc: 0.6356
+
+Epoch 00028: val_loss did not improve from 0.86132
+Epoch 29/10000
+1875/1875 [==============================] - 196s 105ms/step - loss: 0.1768 - acc: 0.9472 - val_loss: 0.6971 - val_acc: 0.7100
+
+Epoch 00029: val_loss improved from 0.86132 to 0.69710, saving model to models/2018_08_01_16_29_06_dim_3/emotion_mini_XCEPTION_32x32_.29-0.71.hdf5
+Epoch 30/10000
+1875/1875 [==============================] - 199s 106ms/step - loss: 0.1769 - acc: 0.9465 - val_loss: 1.0403 - val_acc: 0.5806
+
+Epoch 00030: val_loss did not improve from 0.69710
+Epoch 31/10000
+1875/1875 [==============================] - 186s 99ms/step - loss: 0.1722 - acc: 0.9493 - val_loss: 1.5169 - val_acc: 0.5194
+
+Epoch 00031: val_loss did not improve from 0.69710
+Epoch 32/10000
+1875/1875 [==============================] - 229s 122ms/step - loss: 0.1718 - acc: 0.9494 - val_loss: 1.1551 - val_acc: 0.6406
+
+Epoch 00032: val_loss did not improve from 0.69710
+Epoch 33/10000
+1875/1875 [==============================] - 219s 117ms/step - loss: 0.1686 - acc: 0.9498 - val_loss: 1.8589 - val_acc: 0.5262
+
+Epoch 00033: val_loss did not improve from 0.69710
+Epoch 34/10000
+1875/1875 [==============================] - 229s 122ms/step - loss: 0.1749 - acc: 0.9483 - val_loss: 1.1759 - val_acc: 0.6106
+
+Epoch 00034: val_loss did not improve from 0.69710
+Epoch 35/10000
+1875/1875 [==============================] - 220s 118ms/step - loss: 0.1696 - acc: 0.9493 - val_loss: 2.6031 - val_acc: 0.4412
+
+Epoch 00035: val_loss did not improve from 0.69710
+Epoch 36/10000
+1875/1875 [==============================] - 197s 105ms/step - loss: 0.1619 - acc: 0.9527 - val_loss: 1.5710 - val_acc: 0.4925
+
+Epoch 00036: val_loss did not improve from 0.69710
+Epoch 37/10000
+1875/1875 [==============================] - 190s 101ms/step - loss: 0.1636 - acc: 0.9514 - val_loss: 1.1402 - val_acc: 0.6000
+
+Epoch 00037: val_loss did not improve from 0.69710
+Epoch 38/10000
+1875/1875 [==============================] - 193s 103ms/step - loss: 0.1599 - acc: 0.9539 - val_loss: 0.9856 - val_acc: 0.7006
+
+Epoch 00038: val_loss did not improve from 0.69710
+Epoch 39/10000
+1875/1875 [==============================] - 192s 103ms/step - loss: 0.1585 - acc: 0.9529 - val_loss: 1.8170 - val_acc: 0.5944
+
+Epoch 00039: val_loss did not improve from 0.69710
+Epoch 40/10000
+1875/1875 [==============================] - 214s 114ms/step - loss: 0.1544 - acc: 0.9553 - val_loss: 1.0574 - val_acc: 0.6300
+
+Epoch 00040: val_loss did not improve from 0.69710
+Epoch 41/10000
+1875/1875 [==============================] - 225s 120ms/step - loss: 0.1578 - acc: 0.9533 - val_loss: 1.2554 - val_acc: 0.6106
+
+Epoch 00041: val_loss did not improve from 0.69710
+
+Epoch 00041: ReduceLROnPlateau reducing learning rate to 0.00010000000474974513.
+Epoch 42/10000
+1875/1875 [==============================] - 221s 118ms/step - loss: 0.1150 - acc: 0.9694 - val_loss: 1.1476 - val_acc: 0.6462
+
+Epoch 00042: val_loss did not improve from 0.69710
+Epoch 43/10000
+1875/1875 [==============================] - 234s 125ms/step - loss: 0.1011 - acc: 0.9745 - val_loss: 1.3183 - val_acc: 0.5875
+
+Epoch 00043: val_loss did not improve from 0.69710
+Epoch 44/10000
+1875/1875 [==============================] - 184s 98ms/step - loss: 0.0960 - acc: 0.9744 - val_loss: 1.2397 - val_acc: 0.6238
+
+Epoch 00044: val_loss did not improve from 0.69710
+Epoch 45/10000
+1875/1875 [==============================] - 199s 106ms/step - loss: 0.0928 - acc: 0.9751 - val_loss: 1.3033 - val_acc: 0.6125
+
+Epoch 00045: val_loss did not improve from 0.69710
+Epoch 46/10000
+1875/1875 [==============================] - 191s 102ms/step - loss: 0.0921 - acc: 0.9754 - val_loss: 1.1034 - val_acc: 0.6587
+
+Epoch 00046: val_loss did not improve from 0.69710
+Epoch 47/10000
+1875/1875 [==============================] - 185s 99ms/step - loss: 0.0890 - acc: 0.9762 - val_loss: 1.4207 - val_acc: 0.6175
+
+Epoch 00047: val_loss did not improve from 0.69710
+Epoch 48/10000
+1875/1875 [==============================] - 183s 98ms/step - loss: 0.0881 - acc: 0.9756 - val_loss: 1.2467 - val_acc: 0.6294
+
+Epoch 00048: val_loss did not improve from 0.69710
+Epoch 49/10000
+1875/1875 [==============================] - 193s 103ms/step - loss: 0.0884 - acc: 0.9751 - val_loss: 1.1110 - val_acc: 0.6581
+
+Epoch 00049: val_loss did not improve from 0.69710
+Epoch 50/10000
+1875/1875 [==============================] - 197s 105ms/step - loss: 0.0868 - acc: 0.9762 - val_loss: 1.2770 - val_acc: 0.6244
+
+Epoch 00050: val_loss did not improve from 0.69710
+Epoch 51/10000
+1875/1875 [==============================] - 186s 99ms/step - loss: 0.0833 - acc: 0.9774 - val_loss: 1.3012 - val_acc: 0.6356
+
+Epoch 00051: val_loss did not improve from 0.69710
+Epoch 52/10000
+1875/1875 [==============================] - 182s 97ms/step - loss: 0.0787 - acc: 0.9779 - val_loss: 1.3729 - val_acc: 0.6125
+
+Epoch 00052: val_loss did not improve from 0.69710
+Epoch 53/10000
+1875/1875 [==============================] - 183s 98ms/step - loss: 0.0806 - acc: 0.9780 - val_loss: 1.3119 - val_acc: 0.6056
+
+Epoch 00053: val_loss did not improve from 0.69710
+
+Epoch 00053: ReduceLROnPlateau reducing learning rate to 1.0000000474974514e-05.
+Epoch 54/10000
+1875/1875 [==============================] - 186s 99ms/step - loss: 0.0796 - acc: 0.9783 - val_loss: 1.3178 - val_acc: 0.6062
+
+Epoch 00054: val_loss did not improve from 0.69710
+Epoch 55/10000
+1875/1875 [==============================] - 214s 114ms/step - loss: 0.0755 - acc: 0.9812 - val_loss: 1.2729 - val_acc: 0.6194
+
+Epoch 00055: val_loss did not improve from 0.69710
+Epoch 56/10000
+1875/1875 [==============================] - 223s 119ms/step - loss: 0.0799 - acc: 0.9773 - val_loss: 1.2704 - val_acc: 0.6225
+
+Epoch 00056: val_loss did not improve from 0.69710
+Epoch 57/10000
+1875/1875 [==============================] - 217s 116ms/step - loss: 0.0727 - acc: 0.9808 - val_loss: 1.2669 - val_acc: 0.6112
+
+Epoch 00057: val_loss did not improve from 0.69710
+Epoch 58/10000
+1875/1875 [==============================] - 211s 113ms/step - loss: 0.0766 - acc: 0.9793 - val_loss: 1.3092 - val_acc: 0.6112
+
+Epoch 00058: val_loss did not improve from 0.69710
+Epoch 59/10000
+1875/1875 [==============================] - 208s 111ms/step - loss: 0.0746 - acc: 0.9799 - val_loss: 1.3326 - val_acc: 0.6062
+
+Epoch 00059: val_loss did not improve from 0.69710
+Epoch 60/10000
+1875/1875 [==============================] - 213s 114ms/step - loss: 0.0726 - acc: 0.9807 - val_loss: 1.3249 - val_acc: 0.6150
+
+Epoch 00060: val_loss did not improve from 0.69710
+Epoch 61/10000
+1875/1875 [==============================] - 214s 114ms/step - loss: 0.0759 - acc: 0.9796 - val_loss: 1.3607 - val_acc: 0.6038
+
+Epoch 00061: val_loss did not improve from 0.69710
+Epoch 62/10000
+1875/1875 [==============================] - 211s 113ms/step - loss: 0.0700 - acc: 0.9817 - val_loss: 1.3711 - val_acc: 0.6088
+
+Epoch 00062: val_loss did not improve from 0.69710
+Epoch 63/10000
+1875/1875 [==============================] - 218s 116ms/step - loss: 0.0735 - acc: 0.9802 - val_loss: 1.3480 - val_acc: 0.6150
+
+Epoch 00063: val_loss did not improve from 0.69710
+Epoch 64/10000
+1875/1875 [==============================] - 226s 121ms/step - loss: 0.0713 - acc: 0.9807 - val_loss: 1.2576 - val_acc: 0.6269
+
+Epoch 00064: val_loss did not improve from 0.69710
+Epoch 65/10000
+1875/1875 [==============================] - 292s 156ms/step - loss: 0.0738 - acc: 0.9798 - val_loss: 1.2781 - val_acc: 0.6275
+
+Epoch 00065: val_loss did not improve from 0.69710
+
+Epoch 00065: ReduceLROnPlateau reducing learning rate to 1.0000000656873453e-06.
+Epoch 66/10000
+1875/1875 [==============================] - 218s 116ms/step - loss: 0.0746 - acc: 0.9798 - val_loss: 1.3055 - val_acc: 0.6256
+
+Epoch 00066: val_loss did not improve from 0.69710
+Epoch 67/10000
+1875/1875 [==============================] - 230s 122ms/step - loss: 0.0739 - acc: 0.9807 - val_loss: 1.3293 - val_acc: 0.6238
+
+Epoch 00067: val_loss did not improve from 0.69710
+Epoch 68/10000
+1875/1875 [==============================] - 251s 134ms/step - loss: 0.0725 - acc: 0.9799 - val_loss: 1.3370 - val_acc: 0.6169
+
+Epoch 00068: val_loss did not improve from 0.69710
+Epoch 69/10000
+1875/1875 [==============================] - 211s 112ms/step - loss: 0.0721 - acc: 0.9812 - val_loss: 1.4065 - val_acc: 0.5969
+
+Epoch 00069: val_loss did not improve from 0.69710
+Epoch 70/10000
+1875/1875 [==============================] - 214s 114ms/step - loss: 0.0743 - acc: 0.9795 - val_loss: 1.4042 - val_acc: 0.5969
+
+Epoch 00070: val_loss did not improve from 0.69710
+Epoch 71/10000
+1875/1875 [==============================] - 233s 124ms/step - loss: 0.0747 - acc: 0.9797 - val_loss: 1.3423 - val_acc: 0.6081
+
+Epoch 00071: val_loss did not improve from 0.69710
+Epoch 72/10000
+1875/1875 [==============================] - 246s 131ms/step - loss: 0.0714 - acc: 0.9809 - val_loss: 1.4283 - val_acc: 0.5988
+
+Epoch 00072: val_loss did not improve from 0.69710
+Epoch 73/10000
+1875/1875 [==============================] - 248s 132ms/step - loss: 0.0727 - acc: 0.9799 - val_loss: 1.4122 - val_acc: 0.6062
+
+Epoch 00073: val_loss did not improve from 0.69710
+Epoch 74/10000
+1875/1875 [==============================] - 219s 117ms/step - loss: 0.0751 - acc: 0.9797 - val_loss: 1.3400 - val_acc: 0.6219
+
+Epoch 00074: val_loss did not improve from 0.69710
+Epoch 75/10000
+1875/1875 [==============================] - 224s 120ms/step - loss: 0.0733 - acc: 0.9795 - val_loss: 1.4042 - val_acc: 0.6138
+
+Epoch 00075: val_loss did not improve from 0.69710
+Epoch 76/10000
+1875/1875 [==============================] - 229s 122ms/step - loss: 0.0726 - acc: 0.9808 - val_loss: 1.3335 - val_acc: 0.6200
+
+Epoch 00076: val_loss did not improve from 0.69710
+Epoch 77/10000
+1875/1875 [==============================] - 188s 100ms/step - loss: 0.0746 - acc: 0.9800 - val_loss: 1.3523 - val_acc: 0.6088
+
+Epoch 00077: val_loss did not improve from 0.69710
+
+Epoch 00077: ReduceLROnPlateau reducing learning rate to 1.0000001111620805e-07.
+Epoch 78/10000
+1875/1875 [==============================] - 210s 112ms/step - loss: 0.0736 - acc: 0.9803 - val_loss: 1.2941 - val_acc: 0.6175
+
+Epoch 00078: val_loss did not improve from 0.69710
+Epoch 79/10000
+1875/1875 [==============================] - 229s 122ms/step - loss: 0.0733 - acc: 0.9801 - val_loss: 1.3466 - val_acc: 0.6138

@@ -11,7 +11,7 @@ import copy
 
 
 def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
-    batch_size = 16
+    # batch_size = 16
 
     training_datagen =ImageDataGenerator(featurewise_center=False,
                                     featurewise_std_normalization=False,
@@ -21,7 +21,7 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
                                     zoom_range=.1,
                                     horizontal_flip=True)
 
-    validation_datagen = ImageDataGenerator(zoom_range=0.2, rotation_range=10)
+    validation_datagen = ImageDataGenerator()
 
     training_generator = training_datagen.flow_from_directory(
         train_path,
@@ -43,7 +43,7 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
 # parameters
 batch_size = 32# * 4
 num_epochs = 10000
-input_shape = (48, 48, 3)
+input_shape = (64, 64, 3)
 validation_split = .2
 verbose = 1
 num_classes = 4
