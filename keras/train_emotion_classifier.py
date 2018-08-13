@@ -26,7 +26,7 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
     training_generator = training_datagen.flow_from_directory(
         train_path,
         target_size=(w, h),
-        color_mode='grayscale',
+        # color_mode='grayscale',
         batch_size=batch_size
 
     )
@@ -34,7 +34,7 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
     validation_generator = validation_datagen.flow_from_directory(
         val_path,
         target_size=(w, h),
-        color_mode='grayscale',
+        # color_mode='grayscale',
         batch_size=batch_size
     )
 
@@ -43,11 +43,14 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
 # parameters
 batch_size = 32# * 4
 num_epochs = 10000
-input_shape = (64, 64, 1)
+input_shape = (32, 32, 3)
 validation_split = .2
 verbose = 1
 num_classes = 4
 patience = 50
+
+
+
 root = '/Users/jmarcano/dev/withme/HandGesturesAndTracking/images/CommonHandGestures'
 training_generator, validation_generator = SetUpDataGenerators(root+'/training_data',
                                                                root+'/validation_data',

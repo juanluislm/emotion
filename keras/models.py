@@ -149,6 +149,16 @@ def mini_XCEPTION(input_shape, num_classes, l2_regularization=0.01):
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
 
+    x = Conv2D(8, (3, 3), strides=(1, 1), kernel_regularizer=regularization,
+               use_bias=False)(x)
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+
+    x = Conv2D(8, (3, 3), strides=(1, 1), kernel_regularizer=regularization,
+               use_bias=False)(x)
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+
     # module 1
     residual = Conv2D(16, (1, 1), strides=(2, 2),
                       padding='same', use_bias=False)(x)
@@ -203,10 +213,17 @@ def mini_XCEPTION(input_shape, num_classes, l2_regularization=0.01):
     x = MaxPooling2D((3, 3), strides=(2, 2), padding='same')(x)
     x = layers.add([x, residual])
 
-    x = Conv2D(num_classes, (3, 3),
-            #kernel_regularizer=regularization,
-            padding='same')(x)
-    x = GlobalAveragePooling2D()(x)
+    x = Flatten()(x)
+    x = Dense(64)(x)
+    x = Activation('relu')(x)
+    x = Dropout(0.5)(x)
+    x = Dense(num_classes)(x)
+    # model.add(Activation('softmax'))
+    #
+    # x = Conv2D(num_classes, (3, 3),
+    #         #kernel_regularizer=regularization,
+    #         padding='same')(x)
+    # x = GlobalAveragePooling2D()(x)
     output = Activation('softmax',name='predictions')(x)
 
     model = Model(img_input, output)
