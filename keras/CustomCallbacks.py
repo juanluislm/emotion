@@ -35,7 +35,7 @@ class ModelCheckpointConfusion(Callback):
 
     def __init__(self, filepath, monitor='val_loss', verbose=0,
                  save_best_only=False, save_weights_only=False,
-                 mode='auto', period=1, generator=None, gestures = []):
+                 mode='auto', period=1, generator=None, gestures = [],test_split=(None,None)):
         super(ModelCheckpointConfusion, self).__init__()
         self.monitor = monitor
         self.verbose = verbose
@@ -46,6 +46,7 @@ class ModelCheckpointConfusion(Callback):
         self.epochs_since_last_save = 0
         self.test_data = generator
         self.gestures = gestures
+        self.test_split = test_split
 
         if mode not in ['auto', 'min', 'max']:
             warnings.warn('ModelCheckpoint mode %s is unknown, '
@@ -91,7 +92,8 @@ class ModelCheckpointConfusion(Callback):
                         else:
                             self.model.save(filepath, overwrite=True)
 
-                        self.eval_model(filepath)
+                        # self.eval_model(filepath)
+                        self.test_model(filepath)
 
 
                     else:
@@ -105,6 +107,15 @@ class ModelCheckpointConfusion(Callback):
                     self.model.save_weights(filepath, overwrite=True)
                 else:
                     self.model.save(filepath, overwrite=True)
+
+    def test_model(self, filepath):
+
+        labels = np.zeros( (len(self.test_split[0]), len(self.gestures)) )
+
+        for i in range(0, len(self.test_split[0])  ):
+
+            labels[i] = self.model.predict( self.test_split[0][i] )
+
 
     def eval_model(self, base_path):
 
@@ -131,7 +142,9 @@ class ModelCheckpointConfusion(Callback):
         confusion = np.zeros(  (len(self.gestures), len(self.gestures)), dtype=np.float64  )
         label_count = np.zeros( (len(self.gestures),)  )
         for i in range(0, len(labels)):
-            class_idx = self.test_data.classes[i]
+
+            # class_idx = self.test_data.classes[i]
+            class_idx = self.test_split[1][i]
             predicted = np.argmax(labels[i])
             # print(predicted, class_idx, labels[i])
 
