@@ -13,6 +13,7 @@ import glob
 import math
 import random
 import cv2
+from sklearn.cross_validation import train_test_split
 
 
 def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
@@ -61,24 +62,26 @@ def load_data(root, split, input_shape):
         files = glob.glob(classes[j]+'/*')
         print(len(files))
 
-        val_images = math.floor( len(files) * split )
+        # val_images = math.floor( len(files) * split )
 
-        for i in range(0, val_images):
+        # for i in range(0, val_images):
 
-            rand_idx = random.randint(0, len(files)-1)
+        #     rand_idx = random.randint(0, len(files)-1)
 
-            fl = files[rand_idx]
+        #     fl = files[rand_idx]
 
-            files.pop(rand_idx)
+        #    files.pop(rand_idx)
 
-            img = get_im(fl, input_shape)
-            X_val.append(img)
-            y_val.append(j)
+        #    img = get_im(fl, input_shape)
+        #    X_val.append(img)
+        #    y_val.append(j)
 
         for fl in files:
             img = get_im(fl, input_shape)
             X_train.append(img)
             y_train.append(j)
+
+            X_train, X_val, y_train, y_val = split_validation_set(X_train, y_train, split)
 
 
 
@@ -105,24 +108,10 @@ def get_im(path, input_shape):
 
     return resized
 
-def load_test():
-    print('Read test images')
-    path = os.path.join('..', 'input', 'imgs', 'test', '*.jpg')
-    files = glob.glob(path)
-    X_test = []
-    X_test_id = []
-    total = 0
-    thr = math.floor(len(files)/10)
-    for fl in files:
-        flbase = os.path.basename(fl)
-        img = get_im(fl)
-        X_test.append(img)
-        X_test_id.append(flbase)
-        total += 1
-        if total%thr == 0:
-            print('Read {} images from {}'.format(total, len(files)))
-
-    return X_test, X_test_id
+def split_validation_set(train, labels, test_size):
+    random_state = 51
+    X_train, X_test, y_train, y_test = train_test_split(train, labels, test_size=test_size, random_state=random_state)
+    return X_train, X_test, y_train, y_test
 
 # parameters
 batch_size = 32# * 4
@@ -130,6 +119,7 @@ num_epochs = 10000
 
 conv2d_filters = [2, 4, 8, 12, 16, 32]
 input_shapes = [(32, 32, 3), (48, 48, 3), (64, 64, 3), (80, 80, 3)]
+
 residual_layers = range(1,10)
 conv_layers = range(1,10)
 
@@ -150,7 +140,19 @@ for input_shape in input_shapes:
     root_test = '/Users/jmarcano/dev/withme/HandGesturesAndTracking/images/CommonHandGestures/testing_data/'
     x_train, y_train, x_val, y_val = load_data(root, 0.2, input_shape )
 
+    fdata = open('train_val_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
+
+    pickle.dump([x_train, y_train, x_val, y_val], fdata)
+
+    fdata.close()
+
+    fdata2 = open('test_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
+
     x_test, y_test, dummy1, dummy2 = load_data(root_test, 0.0, input_shape)
+
+    pickle.dump([x_test, y_test], fdata2)
+
+    fdata2.close()
 
     # root = '/Users/jmarcano/dev/withme/HandGesturesAndTracking/images/CommonHandGestures'
     # training_generator, validation_generator = SetUpDataGenerators(root+'/training_data',
@@ -166,7 +168,7 @@ for input_shape in input_shapes:
             for conv2d_filter in conv2d_filters:
 
                 now = datetime.datetime.now()
-                base_path = 'arch_eval/'
+                base_path = 'arch_eval2/'
                 base_path += now.strftime("%Y_%m_%d_%H_%M_%S")+'/'
                 if not os.path.exists(base_path):
                     os.makedirs(base_path)

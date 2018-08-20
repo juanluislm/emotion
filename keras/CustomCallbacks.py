@@ -116,6 +116,10 @@ class ModelCheckpointConfusion(Callback):
 
             labels[i] = self.model.predict( self.test_split[0][i] )
 
+        confusion_matrix = self.GetConfusion(labels)
+
+        self.SaveToExcel(confusion_matrix, base_path)
+
 
     def eval_model(self, base_path):
 
