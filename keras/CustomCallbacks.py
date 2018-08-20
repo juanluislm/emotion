@@ -93,7 +93,10 @@ class ModelCheckpointConfusion(Callback):
                             self.model.save(filepath, overwrite=True)
 
                         # self.eval_model(filepath)
-                        self.test_model(filepath)
+                        if self.test_data is None:
+                            self.test_model(filepath)
+                        else:
+                            self.eval_model(filepath)
 
 
                     else:
