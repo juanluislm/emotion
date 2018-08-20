@@ -16,7 +16,7 @@ import cv2
 from sklearn.cross_validation import train_test_split
 
 
-def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
+def SetUpDataGenerators(train_path, val_path, batch_size, w, h, dim):
     # batch_size = 16
 
     training_datagen =ImageDataGenerator(featurewise_center=False,
@@ -29,10 +29,16 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
 
     validation_datagen = ImageDataGenerator()
 
+    if(dim == 1):
+        mode = 'grayscale'
+    else:
+        mode = 'rgb'
+
+
     training_generator = training_datagen.flow_from_directory(
         train_path,
         target_size=(w, h),
-        # color_mode='grayscale',
+        color_mode=mode,
         batch_size=batch_size
 
     )
@@ -40,54 +46,45 @@ def SetUpDataGenerators(train_path, val_path, batch_size, w, h):
     validation_generator = validation_datagen.flow_from_directory(
         val_path,
         target_size=(w, h),
-        # color_mode='grayscale',
+        color_mode=mode,
         batch_size=batch_size
     )
 
     return training_generator, validation_generator
 
-def load_data(root, split, input_shape):
+def load_data(root, split, input_shape, classes):
     X_train = []
     y_train = []
-    X_val = []
-    y_val = []
     print('Read train images')
 
-    classes = glob.glob(root+'*')
-    print(classes)
+    #     classes = glob.glob(root+'*')
+    #     print(classes)
 
     for j in range(0, len(classes)):
         print('Load folder {}'.format(j))
 
-        files = glob.glob(classes[j]+'/*')
+        files = glob.glob(root + classes[j] + '/*')
         print(len(files))
-
-        # val_images = math.floor( len(files) * split )
-
-        # for i in range(0, val_images):
-
-        #     rand_idx = random.randint(0, len(files)-1)
-
-        #     fl = files[rand_idx]
-
-        #    files.pop(rand_idx)
-
-        #    img = get_im(fl, input_shape)
-        #    X_val.append(img)
-        #    y_val.append(j)
 
         for fl in files:
             img = get_im(fl, input_shape)
             X_train.append(img)
             y_train.append(j)
 
-            X_train, X_val, y_train, y_val = split_validation_set(X_train, y_train, split)
+    X_train, X_val, y_train, y_val = split_validation_set(np.array(X_train), np.array(y_train), split)
 
+    print("Using {} imgs for training and {} imgs for validation".format(len(X_train), len(X_val)))
 
+    y_train2 = np.zeros((len(y_train), len(classes)), dtype=np.float64)
+    y_val2 = np.zeros((len(y_val), len(classes)), dtype=np.float64)
 
-    print("Using {} imgs for training and {} imgs for validation".format( len(X_train), len(X_val) ) )
+    for i in range(0, len(y_train)):
+        y_train2[i][y_train[i]] = 1
 
-    return X_train, y_train, X_val, y_val
+    for i in range(0, len(y_val)):
+        y_val2[i][y_val[i]] = 1
+
+    return X_train, y_train2, X_val, y_val2
 
 def get_im(path, input_shape):
     # Load as grayscale
@@ -138,21 +135,37 @@ for input_shape in input_shapes:
     root = '/Users/jmarcano/dev/withme/HandGesturesAndTracking/images/CommonHandGestures/training_data/'
 
     root_test = '/Users/jmarcano/dev/withme/HandGesturesAndTracking/images/CommonHandGestures/testing_data/'
-    x_train, y_train, x_val, y_val = load_data(root, 0.2, input_shape )
 
-    fdata = open('train_val_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
+    train_name = 'train_val_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2])
+    if (os.path.exists(train_name)):
+        fdata = open(train_name, 'rb')
+        [x_train, y_train, x_val, y_val] = pickle.load(fdata)
+        fdata.close()
+    else:
+        root = '/data/CommonHandGestures/training_data/'
+        x_train, y_train, x_val, y_val = load_data(root, 0.2, input_shape)
+        try:
+            p_file = open('train_val_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
+            pickle.dump([x_train, y_train, x_val, y_val], p_file)
+            p_file.close()
+        except:
+            print("too big to store")
 
-    pickle.dump([x_train, y_train, x_val, y_val], fdata)
+    test_name = 'test_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2])
+    if (os.path.exists(test_name)):
+        fdata = open(test_name, 'rb')
+        [x_test, y_test] = pickle.load(fdata)
+        fdata.close()
+    else:
+        root_test = '/data/CommonHandGestures/testing_data/'
+        x_test, y_test, dummy1, dummy2 = load_data(root_test, 0.0, input_shape)
+        try:
+            p_file = open('test_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
+            pickle.dump([x_test, y_test], p_file)
+            p_file.close()
+        except:
+            print("too big to store")
 
-    fdata.close()
-
-    fdata2 = open('test_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
-
-    x_test, y_test, dummy1, dummy2 = load_data(root_test, 0.0, input_shape)
-
-    pickle.dump([x_test, y_test], fdata2)
-
-    fdata2.close()
 
     # root = '/Users/jmarcano/dev/withme/HandGesturesAndTracking/images/CommonHandGestures'
     # training_generator, validation_generator = SetUpDataGenerators(root+'/training_data',

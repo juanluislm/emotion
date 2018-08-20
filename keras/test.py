@@ -61,20 +61,6 @@ def load_data(root, split, input_shape, classes):
         files = glob.glob(root + classes[j] + '/*')
         print(len(files))
 
-        # val_images = math.floor( len(files) * split )
-
-        # for i in range(0, val_images):
-
-        #     rand_idx = random.randint(0, len(files)-1)
-
-        #     fl = files[rand_idx]
-
-        #    files.pop(rand_idx)
-
-        #    img = get_im(fl, input_shape)
-        #    X_val.append(img)
-        #    y_val.append(j)
-
         for fl in files:
             img = get_im(fl, input_shape)
             X_train.append(img)
@@ -84,7 +70,16 @@ def load_data(root, split, input_shape, classes):
 
     print("Using {} imgs for training and {} imgs for validation".format(len(X_train), len(X_val)))
 
-    return X_train, y_train, X_val, y_val
+    y_train2 = np.zeros((len(y_train), 4), dtype=np.float64)
+    y_val2 = np.zeros((len(y_val), 4), dtype=np.float64)
+
+    for i in range(0, len(y_train)):
+        y_train2[i][y_train[i]] = 1
+
+    for i in range(0, len(y_val)):
+        y_val2[i][y_val[i]] = 1
+
+    return X_train, y_train2, X_val, y_val2
 
 
 def get_im(path, input_shape):
@@ -134,14 +129,14 @@ x_train, y_train, x_val, y_val = load_data(root_test, 0.2, input_shape, gestures
 
 # x_test, y_test, dummy1, dummy2 = load_data(root_test, 0.0, input_shape, gestures)
 
-y_train2 = np.zeros( (len(y_train), 4), dtype=np.float64)
-y_val2 = np.zeros( (len(y_val), 4), dtype=np.float64)
+# y_train2 = np.zeros( (len(y_train), 4), dtype=np.float64)
+# y_val2 = np.zeros( (len(y_val), 4), dtype=np.float64)
 
-for i in range(0, len(y_train)):
-    y_train2[i][ y_train[i]] =1
-
-for i in range(0, len(y_val)):
-    y_val2[i][ y_val[i] ] =1
+# for i in range(0, len(y_train)):
+#     y_train2[i][ y_train[i]] =1
+#
+# for i in range(0, len(y_val)):
+#     y_val2[i][ y_val[i] ] =1
 # fdata = open('train_val_data_{}_{}_{}.pickle'.format(input_shape[0], input_shape[1], input_shape[2]), 'wb')
 
 # pickle.dump([x_train, y_train, x_val, y_val], fdata)
